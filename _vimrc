@@ -123,6 +123,7 @@ Plugin 'https://github.com/junegunn/goyo.vim.git'
 Plugin 'https://github.com/plasticboy/vim-markdown.git'
 Plugin 'https://github.com/iamcco/markdown-preview.vim.git'
 Plugin 'https://github.com/jiangmiao/auto-pairs.git'
+"Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
 " Plugin 'https://github.com/pangloss/vim-javascript.git'
 " Plugin 'https://github.com/scrooloose/syntastic.git'
@@ -360,6 +361,7 @@ map gb <ESC>:call OpenFileLocation()<CR>
 nmap <c-]> g<c-]>
 vmap <c-]> g<c-]>
 
+imap <c-u> <c-x><c-o>
 " Ctrl  + H            光标左移一格
 imap <c-h> <Left>
 
@@ -708,27 +710,9 @@ function! AddCSSDict()
     set complete+=k
 endfunction
 
-" ======= 引号 && 括号自动匹配 ======= "
-:inoremap ( ()<esc>i
-":inoremap ) <c-r>=ClosePair(')')<cr>
-:inoremap { {}<esc>i
-":inoremap } <c-r>=ClosePair('}')<cr>
-:inoremap [ []<esc>i
-":inoremap ] <c-r>=ClosePair(']')<cr>
-:inoremap " ""<esc>i
-:inoremap ' ''<esc>i
-:inoremap ` ``<esc>i
-
-function! ClosePair(char)
-    if getline('.')[col('.') - 1] == a:char
-        return '\<Right>'
-    else
-        return a:char
-    endif
-endf
 
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
+let g:acp_enableAtStartup = 1
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
@@ -741,7 +725,9 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 let g:neocomplete#sources#dictionary#dictionaries = {
     \ 'default' : '',
     \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ 'php' : $VIMFILES.'/dict/php.txt',
+    \ 'javascript' : $VIMFILES.'/dict/javascript.txt',
+    \ 'css' : $VIMFILES.'/dict/css.txt'
         \ }
 
 " Define keyword.
@@ -751,27 +737,28 @@ endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+  "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  "" For no inserting <CR> key.
+  ""return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
 " <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 " <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
 "inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+"inoremap <expr><CR> pumvisible()? "\<C-y>" : "\<CR>"
 
 " AutoComplPop like behavior.
-let g:neocomplete#enable_auto_select = 1
+let g:neocomplete#enable_auto_select = 0
 
 " Shell like behavior(not recommended).
 "set completeopt+=longest
