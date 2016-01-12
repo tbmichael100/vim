@@ -18,8 +18,8 @@ endif
 if g:isWIN
     "colorscheme molokai
     "colorscheme monokai
-    "colorscheme solarized
-    colorscheme dracula
+    colorscheme solarized
+    "colorscheme dracula
     "set background=dark
     set guifont=YaHei_Consolas_Hybrid:h11
 else
@@ -85,8 +85,8 @@ behave mswin
 
 filetype off                  " required
 
-set rtp+=$VIM/vimfiles/bundle/Vundle.vim 
-call vundle#rc('$VIM/vimfiles/bundle/') 
+set rtp+=$VIM/vimfiles/bundle/Vundle.vim
+call vundle#rc('$VIM/vimfiles/bundle/')
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
@@ -95,7 +95,6 @@ Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 Plugin 'https://github.com/tpope/vim-surround.git'
 Plugin 'https://github.com/mattn/emmet-vim.git'
 Plugin 'https://github.com/Shougo/neocomplete.vim.git'
-Plugin 'https://github.com/msanders/snipmate.vim.git'
 Plugin 'https://github.com/vim-scripts/AuthorInfo.git'
 Plugin 'https://github.com/mbbill/undotree.git'
 Plugin 'https://github.com/easymotion/vim-easymotion.git'
@@ -106,6 +105,7 @@ Plugin 'https://github.com/bling/vim-airline.git'
 Plugin 'https://github.com/kien/ctrlp.vim.git'
 Plugin 'https://github.com/godlygeek/tabular.git'
 Plugin 'https://github.com/moll/vim-bbye.git'
+Plugin 'elzr/vim-json'
 Plugin 'https://github.com/vim-scripts/DoxygenToolkit.vim.git'
 Plugin 'https://github.com/jlanzarotta/bufexplorer.git'
 Plugin 'https://github.com/luochen1990/rainbow.git'
@@ -116,17 +116,20 @@ Plugin 'https://github.com/skammer/vim-css-color.git'
 Plugin 'https://github.com/jlanzarotta/colorSchemeExplorer.git'
 Plugin 'https://github.com/rking/ag.vim.git'
 Plugin 'https://github.com/dyng/ctrlsf.vim.git'
-Plugin 'https://github.com/gcmt/wildfire.vim.git'
+Plugin 'https://github.com/msanders/snipmate.vim.git'
 Plugin 'https://github.com/honza/vim-snippets.git'
 Plugin 'https://github.com/othree/javascript-libraries-syntax.vim.git'
 Plugin 'https://github.com/junegunn/goyo.vim.git'
 Plugin 'https://github.com/plasticboy/vim-markdown.git'
 Plugin 'https://github.com/iamcco/markdown-preview.vim.git'
 Plugin 'https://github.com/jiangmiao/auto-pairs.git'
+Plugin 'alvan/vim-php-manual'
+Plugin 'https://github.com/gcmt/wildfire.vim.git'
+Plugin 'https://github.com/tpope/vim-repeat.git'
 "Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
 " Plugin 'https://github.com/pangloss/vim-javascript.git'
-" Plugin 'https://github.com/scrooloose/syntastic.git'
+"Plugin 'https://github.com/scrooloose/syntastic.git'
 call vundle#end()           " required
 filetype plugin indent on   " required
 
@@ -134,16 +137,21 @@ filetype plugin indent on   " required
 let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
 "let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
 let g:mkdp_auto_start = 1   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
-let g:mkdp_auto_open = 1    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
+let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
+
+"json
+let g:vim_json_syntax_conceal = 0
+"phpmanual 在线查看的  原来是<c-h> 和左移窗口冲突
+let g:php_manual_online_search_shortcut = '<C-1>'
 
 "ctags
 nmap <F3> <Esc>:!ctags -R *<CR>
 set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
 
 "bbye 关闭当前tab
-nnoremap ,z :Bd<CR>     
+nnoremap ,z :Bd<CR>
 
 " \bn                 自定义对齐    [Tabular插件]
 nmap <leader>bn :Tab /
@@ -193,10 +201,6 @@ nmap <F7> :Dox<cr>
 let g:snippets_dir = $VIM.'/vimfiles/bundle/vim-snippets/snippets/'
 let g:snipMate                                  = {}
 let g:snipMate.scope_aliases                    = {}
-
-"expand_region
-"map K <Plug>(expand_region_expand)
-"map J <Plug>(expand_region_shrink)
 
 " 设置Gvim的对齐线样式
 let g:indentLine_char = "┊"
@@ -249,7 +253,8 @@ let g:vimrc_homepage=''
 nmap <F6> :AuthorInfoDetect<cr>
 
 " AirLine             彩色状态栏
-let g:airline_theme = 'wombat'                " 设置主题
+"let g:airline_theme = 'wombat'                " 设置主题
+let g:airline_theme = 'solarized'                " 设置主题
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
@@ -713,7 +718,7 @@ endfunction
 
 
 " Disable AutoComplPop.
-let g:acp_enableAtStartup = 1
+let g:acp_enableAtStartup = 0
 " Use neocomplete.
 let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
@@ -724,12 +729,12 @@ let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'php' : $VIMFILES.'/dict/php.txt',
-    \ 'javascript' : $VIMFILES.'/dict/javascript.txt',
-    \ 'css' : $VIMFILES.'/dict/css.txt'
-        \ }
+            \ 'default' : '',
+            \ 'vimshell' : $HOME.'/.vimshell_hist',
+            \ 'php' : $VIMFILES.'/dict/php.txt',
+            \ 'javascript' : $VIMFILES.'/dict/javascript.txt',
+            \ 'css' : $VIMFILES.'/dict/css.txt'
+            \ }
 
 " Define keyword.
 if !exists('g:neocomplete#keyword_patterns')
@@ -743,20 +748,19 @@ let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
-"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-"function! s:my_cr_function()
-  "return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  "" For no inserting <CR> key.
-  ""return pumvisible() ? "\<C-y>" : "\<CR>"
-"endfunction
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+    " For no inserting <CR> key.
+    "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
 " <TAB>: completion.
-"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"<C-h>, <BS>: close popup and delete backword char.
 "inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 "inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-"inoremap <expr><CR> pumvisible()? "\<C-y>" : "\<CR>"
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
 " AutoComplPop like behavior.
 let g:neocomplete#enable_auto_select = 0
@@ -776,11 +780,11 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
 if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
+    let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 
 " For perlomni.vim setting.
 " https://github.com/c9s/perlomni.vim
