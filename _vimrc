@@ -19,7 +19,7 @@ if g:isWIN
     "colorscheme molokai
     "colorscheme monokai
     colorscheme solarized
-    "colorscheme dracula
+    "colorscheme dracula1
     "set background=dark
     set guifont=YaHei_Consolas_Hybrid:h11
 else
@@ -95,14 +95,13 @@ Plugin 'https://github.com/terryma/vim-multiple-cursors.git'
 Plugin 'https://github.com/tpope/vim-surround.git'
 Plugin 'https://github.com/mattn/emmet-vim.git'
 Plugin 'https://github.com/Shougo/neocomplete.vim.git'
-Plugin 'https://github.com/vim-scripts/AuthorInfo.git'
 Plugin 'https://github.com/mbbill/undotree.git'
 Plugin 'https://github.com/easymotion/vim-easymotion.git'
 Plugin 'https://github.com/FriendsOfPHP/PHP-CS-Fixer.git'
 Plugin 'https://github.com/majutsushi/tagbar.git'
 Plugin 'https://github.com/vim-scripts/vim-cursorword.git'
 Plugin 'https://github.com/bling/vim-airline.git'
-Plugin 'https://github.com/kien/ctrlp.vim.git'
+Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plugin 'https://github.com/godlygeek/tabular.git'
 Plugin 'https://github.com/moll/vim-bbye.git'
 Plugin 'elzr/vim-json'
@@ -126,6 +125,9 @@ Plugin 'https://github.com/jiangmiao/auto-pairs.git'
 Plugin 'alvan/vim-php-manual'
 Plugin 'https://github.com/gcmt/wildfire.vim.git'
 Plugin 'https://github.com/tpope/vim-repeat.git'
+Plugin 'https://github.com/tomtom/checksyntax_vim.git'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'https://github.com/vim-scripts/AuthorInfo.git'  " 需要修改fplugin为plugin
 "Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
 " Plugin 'https://github.com/pangloss/vim-javascript.git'
@@ -215,7 +217,7 @@ let g:indentLine_color_gui = '#A4E57E' " 设置 GUI 对齐线颜色，如果不�
 let g:indentLine_conceallevel = 1
 
 "rainbow
-let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+let g:rainbow_active = 1 "0 if you want to enable it later via :rainbowtoggle
 let g:rainbow_conf = {
             \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
             \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
@@ -230,10 +232,10 @@ let g:rainbow_conf = {
             \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
             \       },
             \       'vim': {
-            \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+            \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimfuncbody', 'start=/\[/ end=/\]/ containedin=vimfuncbody', 'start=/{/ end=/}/ fold containedin=vimfuncbody'],
             \       },
             \       'html': {
-            \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+            \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-za-z0-9]+)(\s+[-_:a-za-z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
             \       },
             \       'css': 0,
             \   }
@@ -725,7 +727,7 @@ endfunction
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 0
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
