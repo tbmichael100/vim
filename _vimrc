@@ -136,10 +136,15 @@ filetype plugin indent on   " required
 " markdown-preview
 let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
 "let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
-let g:mkdp_auto_start = 1   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
+let g:mkdp_auto_start = 0   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
 let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
+nmap ;m :call MarkdownOpen()<cr>
+func! MarkdownOpen()
+    :MarkdownPreviewStop
+    :MarkdownPreview
+endfunc
 
 "json
 let g:vim_json_syntax_conceal = 0
@@ -588,8 +593,8 @@ if g:isGUI
     if g:isWIN
         au GUIEnter * simalt ~x
     endif
-    winpos 120 90            " 指定窗口出现的位置，坐标原点在屏幕左上角
-    set lines=20 columns=180 " 指定窗口大小，lines为高度，columns为宽???
+    "winpos 120 90            " 指定窗口出现的位置，坐标原点在屏幕左上角
+    "set lines=20 columns=180 " 指定窗口大小，lines为高度，columns为宽???
     set guioptions+=c        " 使用字符提示???
     set guioptions-=m        " 隐藏菜单???
     set guioptions-=T        " 隐藏工具???
