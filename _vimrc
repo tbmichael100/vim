@@ -157,6 +157,7 @@ endfunc
 
 "json
 let g:vim_json_syntax_conceal = 0
+
 "phpmanual 在线查看的  原来是<c-h> 和左移窗口冲突
 let g:php_manual_online_search_shortcut = '<C-1>'
 
@@ -187,7 +188,6 @@ nmap <leader>ff :CtrlPMixed<cr>
 "let g:syntastic_auto_loc_list = 1
 "let g:syntastic_check_on_open = 1
 "let g:syntastic_check_on_wq = 0
-
 
 "jsBeautify
 map <Leader>js :call JsBeautify()<cr>
@@ -266,22 +266,8 @@ map <F2> :NERDTreeToggle<CR>
 "AuthorInfo
 let g:vimrc_author='arvin'
 let g:vimrc_email='839891627@qq.com'
-let g:vimrc_homepage=''
+let g:vimrc_homepage='https://github.com/839891627'
 nmap <F6> :AuthorInfoDetect<cr>
-
-" AirLine             彩色状态栏
-let g:airline_theme = 'wombat'                " 设置主题
-" let g:airline_theme = 'solarized'                " 设置主题
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_tabs = 0
-let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
-let g:airline#extensions#tabline#fnamemod = ':t'    " 不显示x/h/d
-" alrLine && PowerLine Config
-let g:Powerline_symbols = 'fancy'
-let g:airline_powerline_fonts = 1
-let Powerline_symbols = 'compatible'
-" let g:airline_section_b = '%{strftime("%c")}'
-" let g:airline_section_y = 'BN:%{bufnr("%")}'
 
 " TagBar              tags标签浏览
 let g:tagbar_width=30
@@ -335,6 +321,20 @@ let g:php_cs_fixer_enable_default_mapping = 1  " 使用插件默认的快捷键
 let g:php_cs_fixer_dry_run = 0                 " 只提示需要格式化的位置，不执行格式化 [0为不开启]
 nmap <F9> :call PhpCsFixerFixFile()<CR>
 nmap <F10> :call PhpCsFixerFixDirectory()<CR>
+
+" AirLine             彩色状态栏
+let g:airline_theme = 'wombat'                " 设置主题
+" let g:airline_theme = 'solarized'                " 设置主题
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
+let g:airline#extensions#tabline#fnamemod = ':t'    " 不显示x/h/d
+" alrLine && PowerLine Config
+let g:Powerline_symbols = 'fancy'
+let g:airline_powerline_fonts = 1
+let Powerline_symbols = 'compatible'
+" let g:airline_section_b = '%{strftime("%c")}'
+" let g:airline_section_y = 'BN:%{bufnr("%")}'
 
 "  php  html在浏览器中打开
 " -----------------------------------------------------------------------------
@@ -733,7 +733,6 @@ function! AddCSSDict()
     endif
     set complete+=k
 endfunction
-
 
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
