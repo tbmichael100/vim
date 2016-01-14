@@ -18,8 +18,8 @@ endif
 if g:isWIN
     "colorscheme molokai
     "colorscheme monokai
-    colorscheme solarized
-    "colorscheme dracula1
+    " colorscheme solarized
+    colorscheme dracula1
     "set background=dark
     set guifont=YaHei_Consolas_Hybrid:h11
 else
@@ -31,7 +31,8 @@ endif
 set shiftwidth=4
 set tabstop=4
 
-set autowrite
+" set autowrite
+set autowriteall
 set backspace=2              " 设置退格键可用
 set autoindent               " 自动对齐
 set ai!                      " 设置自动缩进
@@ -66,6 +67,7 @@ syntax on                    " 开启文件类型侦???
 filetype indent on           " 针对不同的文件类型采用不同的缩进格式
 filetype plugin on           " 针对不同的文件类型加载对应的插件
 filetype plugin indent on    " 启用自动补全
+au FocusLost * silent! wa    " 丢失鼠标自动保存文件
 
 " 设置文件编码和文件格
 set fenc=utf-8
@@ -144,8 +146,13 @@ let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
 nmap ;m :call MarkdownOpen()<cr>
 func! MarkdownOpen()
-    :MarkdownPreviewStop
-    :MarkdownPreview
+    if g:mkdp_server_started
+        " 如果服务已经开启则先关闭服务
+        :MarkdownPreviewStop
+        :MarkdownPreview
+    else
+        :MarkdownPreview
+    endif
 endfunc
 
 "json
@@ -156,6 +163,9 @@ let g:php_manual_online_search_shortcut = '<C-1>'
 "ctags
 nmap <F3> <Esc>:!ctags -R *<CR>
 set tags=./tags;                            "向上级目录递归查找tags文件（好像只有在Windows下才有用）
+
+" nerdcommenter
+let NERDSpaceDelims = 1                        " 自动添加前置空格
 
 "bbye 关闭当前tab
 nnoremap ,z :Bd<CR>
@@ -260,8 +270,8 @@ let g:vimrc_homepage=''
 nmap <F6> :AuthorInfoDetect<cr>
 
 " AirLine             彩色状态栏
-"let g:airline_theme = 'wombat'                " 设置主题
-let g:airline_theme = 'solarized'                " 设置主题
+let g:airline_theme = 'wombat'                " 设置主题
+" let g:airline_theme = 'solarized'                " 设置主题
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
@@ -310,8 +320,9 @@ noremap <c-h> <c-w>h
 noremap <c-l> <c-w>l
 
 "使vimrc更易用
-:nmap ,s :source $VIM/_vimrc<CR>
-:nmap ,v :e $VIM/_vimrc<CR>
+nmap ,s :source $VIM/_vimrc<CR>
+nmap ,v :e $VIM/_vimrc<CR>
+nmap ;w :w<CR>
 
 " javascript-libraries-syntax                    指定需要高亮的JS库
 let g:used_javascript_libs = 'jquery,requirejs,underscore,backbone,angularjs,angularui,angularuirouter,react,flux,handlebars'
@@ -374,7 +385,7 @@ map gb <ESC>:call OpenFileLocation()<CR>
 nmap <c-]> g<c-]>
 vmap <c-]> g<c-]>
 
-imap <c-u> <c-x><c-o>
+imap <c-u> <c-x><c-k>
 " Ctrl  + H            光标左移一格
 imap <c-h> <Left>
 
@@ -727,7 +738,7 @@ endfunction
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
-let g:neocomplete#enable_at_startup = 0
+let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
@@ -789,10 +800,5 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+"这个卡起了会卡死
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
