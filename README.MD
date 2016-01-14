@@ -6,3 +6,6 @@
 #### 注意点
 * git上的php-cs-fixer缺少了vim文件
 * auth-info ftplugin文件夹不识别，需要改成 plugin
+
+
+![tagbar、ctrlp、etc](./images/pic.png)
