@@ -129,6 +129,7 @@ Plugin 'https://github.com/gcmt/wildfire.vim.git'
 Plugin 'https://github.com/tpope/vim-repeat.git'
 Plugin 'https://github.com/tomtom/checksyntax_vim.git'
 Plugin 'https://github.com/vim-scripts/AuthorInfo.git'  " 需要修改fplugin为plugin
+Plugin 'https://github.com/gregsexton/MatchTag.git' 
 " Plugin 'ryanoasis/vim-devicons'
 "Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
@@ -141,7 +142,7 @@ filetype plugin indent on   " required
 let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
 "let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
 let g:mkdp_auto_start = 0   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
-let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
+let g:mkdp_auto_open = 1    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
 nmap ;m :call MarkdownOpen()<cr>
@@ -328,7 +329,7 @@ let g:airline_theme = 'wombat'                " 设置主题
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
-let g:airline#extensions#tabline#fnamemod = ':t'    " 不显示x/h/d
+let g:airline#extensions#tabline#fnamemod = ':t'    " 不显示x/h/d  表示文件所在路径文件夹第一个字母
 " alrLine && PowerLine Config
 let g:Powerline_symbols = 'fancy'
 let g:airline_powerline_fonts = 1
@@ -336,7 +337,7 @@ let Powerline_symbols = 'compatible'
 " let g:airline_section_b = '%{strftime("%c")}'
 " let g:airline_section_y = 'BN:%{bufnr("%")}'
 
-"  php  html在浏览器中打开
+" php  html在浏览器中打开
 " -----------------------------------------------------------------------------
 nmap ,f :call ViewInBrowser("ff")<CR>
 nmap ,c :call ViewInBrowser("cr")<cr>
@@ -385,7 +386,9 @@ map gb <ESC>:call OpenFileLocation()<CR>
 nmap <c-]> g<c-]>
 vmap <c-]> g<c-]>
 
+" 字典补全
 imap <c-u> <c-x><c-k>
+
 " Ctrl  + H            光标左移一格
 imap <c-h> <Left>
 
@@ -400,6 +403,7 @@ imap <c-l> <Right>
 
 " Alt + L
 imap <m-l> <Esc>A
+
 " Alt + H
 imap <m-h> <Esc>I
 
@@ -588,6 +592,7 @@ imap <F5> <esc>:call Compile_Run_Code()<cr>
 nmap <F5> :call Compile_Run_Code()<cr>
 vmap <F5> <esc>:call Compile_Run_Code()<cr>
 
+" 移除空白行超过两行的空白行
 function! RemoveBlankLines()
     :%s/^\s\+$//
     " :%s/\n\{3,\}/\r\r/
@@ -799,5 +804,5 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"这个卡起了会卡死
+"这个开起了会卡死
 "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
