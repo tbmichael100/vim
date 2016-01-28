@@ -65,21 +65,7 @@ function! neocomplete#handler#_on_complete_done() "{{{
   if neocomplete.event !=# 'mapping'
         \ && exists('v:completed_item')
         \ && get(v:completed_item, 'word', '') == ''
-    " Check delimiter pattern.
-    let is_delimiter = 0
-    let filetype = neocomplete#get_context_filetype()
-    let cur_text = neocomplete#get_cur_text(1)
-
-    for delimiter in ['/', '.'] +
-          \ get(g:neocomplete#delimiter_patterns, filetype, [])
-      if stridx(cur_text, delimiter,
-            \ len(cur_text) - len(delimiter)) >= 0
-        let is_delimiter = 1
-        break
-      endif
-    endfor
-
-    if !is_delimiter
+    if !s:is_delimiter() && !get(neocomplete, 'refresh', 0)
       call neocomplete#mappings#close_popup()
     endif
   endif
@@ -117,11 +103,18 @@ function! neocomplete#handler#_restore_update_time() "{{{
   endif
 endfunction"}}}
 function! neocomplete#handler#_on_insert_char_pre() "{{{
+  let neocomplete = neocomplete#get_current_neocomplete()
+  let neocomplete.skip_next_complete = 0
+
+  if pumvisible() && g:neocomplete#enable_refresh_always
+    " Auto refresh
+    call feedkeys("\<Plug>(neocomplete_auto_refresh)")
+  endif
+
   if neocomplete#is_cache_disabled()
     return
   endif
 
-  let neocomplete = neocomplete#get_current_neocomplete()
   if neocomplete.old_char != ' ' && v:char == ' ' && v:count == 0
     call s:make_cache_current_line()
   endif
@@ -231,7 +224,7 @@ function! s:is_skip_auto_complete(cur_text) "{{{
 
   let skip = neocomplete.skip_next_complete
 
-  if !skip || a:cur_text !=# neocomplete.old_cur_text
+  if !skip || s:is_delimiter()
     return 0
   endif
 
@@ -326,6 +319,23 @@ function! s:indent_current_line() abort "{{{
       break
     endif
   endfor
+endfunction"}}}
+function! s:is_delimiter() abort "{{{
+  " Check delimiter pattern.
+  let is_delimiter = 0
+  let filetype = neocomplete#get_context_filetype()
+  let cur_text = neocomplete#get_cur_text(1)
+
+  for delimiter in ['/', '.'] +
+        \ get(g:neocomplete#delimiter_patterns, filetype, [])
+    if stridx(cur_text, delimiter,
+          \ len(cur_text) - len(delimiter)) >= 0
+      let is_delimiter = 1
+      break
+    endif
+  endfor
+
+  return is_delimiter
 endfunction"}}}
 
 let &cpo = s:save_cpo

@@ -26,6 +26,7 @@ g:neocomplete#enable_cursor_hold_i	neocomplete.txt	/*g:neocomplete#enable_cursor
 g:neocomplete#enable_fuzzy_completion	neocomplete.txt	/*g:neocomplete#enable_fuzzy_completion*
 g:neocomplete#enable_ignore_case	neocomplete.txt	/*g:neocomplete#enable_ignore_case*
 g:neocomplete#enable_multibyte_completion	neocomplete.txt	/*g:neocomplete#enable_multibyte_completion*
+g:neocomplete#enable_refresh_always	neocomplete.txt	/*g:neocomplete#enable_refresh_always*
 g:neocomplete#enable_smart_case	neocomplete.txt	/*g:neocomplete#enable_smart_case*
 g:neocomplete#fallback_mappings	neocomplete.txt	/*g:neocomplete#fallback_mappings*
 g:neocomplete#force_omni_input_patterns	neocomplete.txt	/*g:neocomplete#force_omni_input_patterns*
@@ -124,6 +125,7 @@ neocomplete-source-attribute-hooks	neocomplete.txt	/*neocomplete-source-attribut
 neocomplete-source-attribute-hooks-on_final	neocomplete.txt	/*neocomplete-source-attribute-hooks-on_final*
 neocomplete-source-attribute-hooks-on_init	neocomplete.txt	/*neocomplete-source-attribute-hooks-on_init*
 neocomplete-source-attribute-hooks-on_post_filter	neocomplete.txt	/*neocomplete-source-attribute-hooks-on_post_filter*
+neocomplete-source-attribute-input_pattern	neocomplete.txt	/*neocomplete-source-attribute-input_pattern*
 neocomplete-source-attribute-is_volatile	neocomplete.txt	/*neocomplete-source-attribute-is_volatile*
 neocomplete-source-attribute-keyword_patterns	neocomplete.txt	/*neocomplete-source-attribute-keyword_patterns*
 neocomplete-source-attribute-kind	neocomplete.txt	/*neocomplete-source-attribute-kind*

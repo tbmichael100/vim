@@ -18,8 +18,8 @@ endif
 if g:isWIN
     "colorscheme molokai
     "colorscheme monokai
-    " colorscheme solarized
-    colorscheme dracula1
+    colorscheme solarized
+    " colorscheme dracula1
     "set background=dark
     set guifont=YaHei_Consolas_Hybrid:h11
 else
@@ -32,6 +32,7 @@ set shiftwidth=4
 set tabstop=4
 
 " set autowrite
+set conceallevel=0
 set autowriteall
 set backspace=2              " 设置退格键可用
 set autoindent               " 自动对齐
@@ -106,7 +107,6 @@ Plugin 'https://github.com/bling/vim-airline.git'
 Plugin 'https://github.com/ctrlpvim/ctrlp.vim.git'
 Plugin 'https://github.com/godlygeek/tabular.git'
 Plugin 'https://github.com/moll/vim-bbye.git'
-Plugin 'elzr/vim-json'
 Plugin 'https://github.com/vim-scripts/DoxygenToolkit.vim.git'
 Plugin 'https://github.com/jlanzarotta/bufexplorer.git'
 Plugin 'https://github.com/luochen1990/rainbow.git'
@@ -127,25 +127,44 @@ Plugin 'https://github.com/jiangmiao/auto-pairs.git'
 Plugin 'alvan/vim-php-manual'
 Plugin 'https://github.com/gcmt/wildfire.vim.git'
 Plugin 'https://github.com/tpope/vim-repeat.git'
-Plugin 'https://github.com/tomtom/checksyntax_vim.git'
 Plugin 'https://github.com/vim-scripts/AuthorInfo.git'  " 需要修改fplugin为plugin
-Plugin 'https://github.com/gregsexton/MatchTag.git' 
 " Plugin 'ryanoasis/vim-devicons'
 "Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
-" Plugin 'https://github.com/pangloss/vim-javascript.git'
-"Plugin 'https://github.com/scrooloose/syntastic.git'
+Plugin 'https://github.com/pangloss/vim-javascript.git'
+" Plugin 'https://github.com/scrooloose/syntastic.git'
+" js
+Plugin 'https://github.com/Shutnik/jshint2.vim.git'
+Plugin 'https://github.com/digitaltoad/vim-jade.git'
 call vundle#end()           " required
 filetype plugin indent on   " required
 
+"jshint2
+let jshint2_command = $VIMRUNTIME."/jshint.cmd"
+
+"jsBeautify
+autocmd FileType javascript noremap <buffer>  <Leader>js :call JsBeautify()<cr>
+autocmd FileType json noremap <buffer> <Leader>js :call JsonBeautify()<cr>
+autocmd FileType jsx noremap <buffer> <Leader>js :call JsxBeautify()<cr>
+autocmd FileType html noremap <buffer> <Leader>js :call HtmlBeautify()<cr>
+autocmd FileType css noremap <buffer> <Leader>js :call CSSBeautify()<cr>
+
+" js美化&错误排查
+map <Leader>jj :call JsHintJsBeautify()<cr>
+func! JsHintJsBeautify()
+    :cal JsBeautify()
+    :JSHint
+endfunc
+
 " markdown-preview
-let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
-"let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
+" let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
+let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
 let g:mkdp_auto_start = 0   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
-let g:mkdp_auto_open = 1    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
+let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
-nmap ;m :call MarkdownOpen()<cr>
+nmap <F10> :call MarkdownOpen()<cr>
+nmap <leader>m :call MarkdownOpen()<cr>
 func! MarkdownOpen()
     if g:mkdp_server_started
         " 如果服务已经开启则先关闭服务
@@ -155,9 +174,6 @@ func! MarkdownOpen()
         :MarkdownPreview
     endif
 endfunc
-
-"json
-let g:vim_json_syntax_conceal = 0
 
 "phpmanual 在线查看的  原来是<c-h> 和左移窗口冲突
 let g:php_manual_online_search_shortcut = '<C-1>'
@@ -173,7 +189,8 @@ let NERDSpaceDelims = 1                        " 自动添加前置空格
 nnoremap ,z :Bd<CR>
 
 " \bn                 自定义对齐    [Tabular插件]
-nmap <leader>bn :Tab /
+"
+nmap <leader>bn :Tabularize /
 
 " \fe                 打开文件编码窗口，在右侧栏显示 [FencView插件]
 nmap <leader>fe :FencView<cr>
@@ -182,21 +199,17 @@ nmap <leader>fe :FencView<cr>
 nmap <leader>ff :CtrlPMixed<cr>
 
 "syntastic
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-
-"jsBeautify
-map <Leader>js :call JsBeautify()<cr>
-autocmd FileType javascript noremap <buffer>  <Leader>js :call JsBeautify()<cr>
-autocmd FileType json noremap <buffer> <Leader>js :call JsonBeautify()<cr>
-autocmd FileType jsx noremap <buffer> <Leader>js :call JsxBeautify()<cr>
-autocmd FileType html noremap <buffer> <Leader>js :call HtmlBeautify()<cr>
-autocmd FileType css noremap <buffer> <Leader>js :call CSSBeautify()<cr>
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_auto_loc_list = 1
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 0
+" " 过滤错误类型等
+" let g:syntastic_quiet_messages = {
+" \ "!level":  "errors",
+" \ "type":    "style" }
 
 " BufExplorer         文件缓冲浏览器
 let g:bufExplorerSortBy = 'name'               " 按文件名排序
@@ -207,6 +220,7 @@ nmap zh :bp<cr>
 let g:goyo_width=150
 let g:goyo_margin_top = 0
 let g:goyo_margin_bottom = 0
+let g:goyo_margin_left = 30
 set guitablabel=%{tabpagenr()}.%t\ %m
 let g:goyo_linenr=1
 :nmap ,g :Goyo<cr>
@@ -274,7 +288,7 @@ nmap <F6> :AuthorInfoDetect<cr>
 let g:tagbar_width=30
 let g:tagbar_sort = 0                          " 关闭排序     [也就是按标签本身在文件中的位置排序]
 let g:tagbar_show_linenumbers = -1             " 显示行号     [使用全局关于行号的默认配置]
-"let g:tagbar_autopreview = 1                   " 开启自动预???[随着光标在标签上的移动，顶部会出现一个实时的预览窗口]
+let g:tagbar_autopreview = 0                   " 开启自动预???[随着光标在标签上的移动，顶部会出现一个实时的预览窗口]
 let g:tagbar_type_elixir = {'ctagstype': 'elixir', 'kinds': ['f:functions:0:0', 'c:callbacks:0:0', 'd:delegates:0:0', 'e:exceptions:0:0', 'i:implementations:0:0', 'a:macros:0:0', 'o:operators:0:0', 'm:modules:0:0', 'p:protocols:0:0', 'r:records:0:0'], 'sro': '.'}
 nmap <F4> :TagbarToggle<cr><c-w><c-l>
 
@@ -307,9 +321,9 @@ noremap <c-h> <c-w>h
 noremap <c-l> <c-w>l
 
 "使vimrc更易用
-nmap ,s :source $VIM/_vimrc<CR>
+nmap ,s :wa!<CR>
+nmap ,vv :source $VIM/_vimrc<CR>
 nmap ,v :e $VIM/_vimrc<CR>
-nmap ;w :w<CR>
 
 " javascript-libraries-syntax                    指定需要高亮的JS库
 let g:used_javascript_libs = 'jquery,requirejs,underscore,backbone,angularjs,angularui,angularuirouter,react,flux,handlebars'
@@ -321,11 +335,11 @@ let g:php_cs_fixer_php_path = 'php'            " 指定PHP可执行文件的路�
 let g:php_cs_fixer_enable_default_mapping = 1  " 使用插件默认的快捷键
 let g:php_cs_fixer_dry_run = 0                 " 只提示需要格式化的位置，不执行格式化 [0为不开启]
 nmap <F9> :call PhpCsFixerFixFile()<CR>
-nmap <F10> :call PhpCsFixerFixDirectory()<CR>
+" nmap <F10> :call PhpCsFixerFixDirectory()<CR>
 
 " AirLine             彩色状态栏
-let g:airline_theme = 'wombat'                " 设置主题
-" let g:airline_theme = 'solarized'                " 设置主题
+" let g:airline_theme = 'wombat'                " 设置主题
+let g:airline_theme = 'solarized'                " 设置主题
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_tabs = 0
 let g:airline#extensions#tabline#buffer_nr_show = 1 " tabline中buffer显示编号
@@ -764,34 +778,15 @@ if !exists('g:neocomplete#keyword_patterns')
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-"inoremap <expr><C-g>     neocomplete#undo_completion()
-"inoremap <expr><C-l>     neocomplete#complete_common_string()
-
 " Recommended key-mappings.
 " <CR>: close popup and save indent.
 inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 function! s:my_cr_function()
     return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    " For no inserting <CR> key.
-    "return pumvisible() ? "\<C-y>" : "\<CR>"
 endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-"<C-h>, <BS>: close popup and delete backword char.
-"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
 " AutoComplPop like behavior.
 let g:neocomplete#enable_auto_select = 0
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 
 " Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -804,5 +799,3 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
-"这个开起了会卡死
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'

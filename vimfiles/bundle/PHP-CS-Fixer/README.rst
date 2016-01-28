@@ -284,6 +284,10 @@ Choose from the list of available fixers:
                         one blank line after the use
                         statements block.
 
+* **switch_case_semicolon_to_colon** [PSR-2]
+                        A case should be followed by a
+                        colon and not a semicolon.
+
 * **switch_case_space** [PSR-2]
                         Removes extra spaces between
                         colon and case value.
@@ -346,6 +350,10 @@ Choose from the list of available fixers:
                         use double slashes (//) and
                         not hash (#).
 
+* **heredoc_to_nowdoc** [symfony]
+                        Convert heredoc to nowdoc if
+                        possible.
+
 * **include** [symfony]
                         Include/Require and file path
                         should be divided with a
@@ -359,6 +367,10 @@ Choose from the list of available fixers:
 * **list_commas** [symfony]
                         Remove trailing commas in list
                         function calls.
+
+* **lowercase_cast** [symfony]
+                        Cast should be written in
+                        lower case.
 
 * **method_argument_default_value** [symfony]
                         In method arguments there must
@@ -505,6 +517,13 @@ Choose from the list of available fixers:
                         exclamation mark should not be
                         used.
 
+* **short_scalar_cast** [symfony]
+                        Cast "(boolean)" and
+                        "(integer)" should be written
+                        as "(bool)" and "(int)".
+                        "(double)" and "(real)" as
+                        "(float)".
+
 * **single_array_no_trailing_comma** [symfony]
                         PHP single-line arrays should
                         not have trailing comma.
@@ -614,6 +633,11 @@ Choose from the list of available fixers:
                         Multi-line whitespace before
                         closing semicolon are
                         prohibited.
+
+* **native_function_casing** [contrib]
+                        Function defined by PHP should
+                        be called using the correct
+                        casing.
 
 * **newline_after_open_tag** [contrib]
                         Ensure there is no code on the

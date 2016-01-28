@@ -1,6 +1,8 @@
 Traceback (most recent call last):
-  File "D:\vim\vimfiles\bundle\markdown-preview.vim\autoload/server/server.py", line 50, in _dealConnect
+  File "D:\vim\vimfiles\bundle\markdown-preview.vim\autoload/server/server.py", line 54, in _dealConnect
     ret = f(conn)
   File "D:\vim\vimfiles\bundle\markdown-preview.vim\autoload/server/server.py", line 80, in dealConnect
-    reqMethod, path, protcl = hItmes[0].split(u' ')
-ValueError: need more than 1 value to unpack
+    data = conn.recv(RECV_BUF).decode(ENCODING).split(BLANK_LINE)
+  File "C:\Python27\lib\encodings\utf_8.py", line 16, in decode
+    return codecs.utf_8_decode(input, errors, True)
+UnicodeDecodeError: 'utf8' codec can't decode byte 0xe4 in position 3471: unexpected end of data

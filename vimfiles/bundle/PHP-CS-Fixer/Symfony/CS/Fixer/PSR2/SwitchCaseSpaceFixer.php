@@ -15,6 +15,8 @@ use Symfony\CS\AbstractFixer;
 use Symfony\CS\Tokenizer\Tokens;
 
 /**
+ * Fixer for rules defined in PSR2 ¶5.2.
+ *
  * @author Sullivan Senechal <soullivaneuh@gmail.com>
  */
 final class SwitchCaseSpaceFixer extends AbstractFixer
@@ -38,7 +40,7 @@ final class SwitchCaseSpaceFixer extends AbstractFixer
                     ++$ternariesCount;
                 }
 
-                if ($tokens[$colonIndex]->equals(':')) {
+                if ($tokens[$colonIndex]->equalsAny(array(':', ';'))) {
                     if (0 === $ternariesCount) {
                         break;
                     }

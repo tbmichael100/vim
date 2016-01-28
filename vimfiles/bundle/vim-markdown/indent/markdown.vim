@@ -19,7 +19,8 @@ setlocal comments+=b:>
 if exists("*GetMarkdownIndent") | finish | endif
 
 function! s:is_mkdCode(lnum)
-    return synIDattr(synID(a:lnum, 1, 0), 'name') == 'mkdCode'
+    let name = synIDattr(synID(a:lnum, 1, 0), 'name')
+    return (name =~ '^mkd\%(Code$\|Snippet\)' || name != '' && name !~ '^\%(mkd\|html\)')
 endfunction
 
 function! s:is_li_start(line)
@@ -40,6 +41,9 @@ function! s:prevnonblank(lnum)
 endfunction
 
 function GetMarkdownIndent()
+    if v:lnum > 2 && s:is_blank_line(getline(v:lnum - 1)) && s:is_blank_line(getline(v:lnum - 2))
+        return 0
+    endif
     let list_ind = 4
     " Find a non-blank line above the current line.
     let lnum = prevnonblank(v:lnum - 1)
