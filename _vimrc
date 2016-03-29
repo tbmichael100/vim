@@ -30,6 +30,9 @@ endif
 " 设置通用缩进策略
 set shiftwidth=4
 set tabstop=4
+" 对部分语言设置单独的缩进
+au FileType scala,clojure,elixir,eelixir,scheme,racket,newlisp,lisp,lua,ruby,eruby,julia,dart,elm,coffee,ls,slim,jade,sh set shiftwidth=2
+au FileType scala,clojure,elixir,eelixir,scheme,racket,newlisp,lisp,lua,ruby,eruby,julia,dart,elm,coffee,ls,slim,jade,sh set tabstop=2
 
 " set autowrite
 set conceallevel=0
@@ -52,7 +55,7 @@ set foldenable               " 启用折叠
 set foldmethod=indent        " indent 折叠方式
 set foldlevel=100            " 禁止自动折叠
 " 用空格键来开关折叠
-nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
+" nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
 set laststatus=2             " 开启状态栏信息
 set cmdheight=1              " 命令行的高度，默认为1，这里设???
 set autoread                 " 当文件在外部被修改时自动更新该文???
@@ -128,19 +131,36 @@ Plugin 'alvan/vim-php-manual'
 Plugin 'https://github.com/gcmt/wildfire.vim.git'
 Plugin 'https://github.com/tpope/vim-repeat.git'
 Plugin 'https://github.com/vim-scripts/AuthorInfo.git'  " 需要修改fplugin为plugin
-" Plugin 'ryanoasis/vim-devicons'
-"Plugin 'https://github.com/ervandew/supertab.git'
-" Plugin 'https://github.com/nono/jquery.vim.git'
 Plugin 'https://github.com/pangloss/vim-javascript.git'
-" Plugin 'https://github.com/scrooloose/syntastic.git'
-" js
+Plugin 'https://github.com/scrooloose/syntastic.git'
 Plugin 'https://github.com/Shutnik/jshint2.vim.git'
-Plugin 'https://github.com/digitaltoad/vim-jade.git'
+Plugin 'https://github.com/Valloric/MatchTagAlways.git'
+Plugin 'https://github.com/vim-airline/vim-airline-themes.git'
+" Plugin 'https://github.com/ervandew/supertab.git'
+" Plugin 'https://github.com/nono/jquery.vim.git'
+" Plugin 'ryanoasis/vim-devicons'
+
+" Plugin 'https://github.com/leshill/vim-json.git'
+" Plugin 'https://github.com/digitaltoad/vim-jade.git'
+" Plugin 'mhinz/vim-startify'
+" Plugin 'https://github.com/vim-scripts/vcscommand.vim.git'
+
 call vundle#end()           " required
 filetype plugin indent on   " required
 
 "jshint2
 let jshint2_command = $VIMRUNTIME."/jshint.cmd"
+let jshint2_read = 1
+let jshint2_close = 0
+" show next jshint error
+nnoremap <silent><Leader>n :lnext<CR>
+inoremap <silent><Leader>n <C-O>:lnext<CR>
+vnoremap <silent><Leader>n :lnext<CR>
+
+" show previous jshint error
+nnoremap <silent><Leader>p :lprevious<CR>
+inoremap <silent><Leader>p <C-O>:lprevious<CR>
+vnoremap <silent><Leader>p :lprevious<CR>
 
 "jsBeautify
 autocmd FileType javascript noremap <buffer>  <Leader>js :call JsBeautify()<cr>
@@ -157,13 +177,13 @@ func! JsHintJsBeautify()
 endfunc
 
 " markdown-preview
-" let g:mkdp_path_to_chrome = "D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
-let g:mkdp_path_to_chrome = "D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe"
+let g:mkdp_path_to_chrome = "C:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
+" let g:mkdp_path_to_chrome = "D:/caojl/chrome/chrome.exe"
 let g:mkdp_auto_start = 0   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
 let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
 let g:mkdp_refresh_slow = 0 " 设置为 1 则只有在保存文件，或退出插入模式的时候更新预览，默认为 0，实时更新预览
-nmap <F10> :call MarkdownOpen()<cr>
+nmap ,m :call MarkdownOpen()<cr>
 nmap <leader>m :call MarkdownOpen()<cr>
 func! MarkdownOpen()
     if g:mkdp_server_started
@@ -199,17 +219,23 @@ nmap <leader>fe :FencView<cr>
 nmap <leader>ff :CtrlPMixed<cr>
 
 "syntastic
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_auto_loc_list = 1
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 0
-" " 过滤错误类型等
-" let g:syntastic_quiet_messages = {
-" \ "!level":  "errors",
-" \ "type":    "style" }
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+" 过滤错误类型等
+let g:syntastic_quiet_messages = {
+            \ "!level":  "errors,warnings",
+            \ "type":    "style",
+            \ "regex":   '\m\[C03\d\d\]',
+            \ "file:p":  ['\m^/usr/include/', '\m\c\.h$'] }
+let g:syntastic_mode_map      = {
+            \'mode': 'active',
+            \'passive_filetypes': ['php','groovy', 'kotlin', 'ceylon', 'scala', 'clojure', 'lisp', 'eruby', 'slim', 'jade', 'scss', 'less', 'css', 'html', 'xhtml']
+            \}                                 " 指定不需要开启检查的语言
 
 " BufExplorer         文件缓冲浏览器
 let g:bufExplorerSortBy = 'name'               " 按文件名排序
@@ -329,13 +355,13 @@ nmap ,v :e $VIM/_vimrc<CR>
 let g:used_javascript_libs = 'jquery,requirejs,underscore,backbone,angularjs,angularui,angularuirouter,react,flux,handlebars'
 
 " php-cs-fixer                                   格式化PHP代码
-let g:php_cs_fixer_level = 'symfony'           " 使用Symfony推荐的代码风格
+" let g:php_cs_fixer_level = 'Symfony'           " 使用Symfony推荐的代码风格
 let g:php_cs_fixer_config = 'default'          " 使用默认配置
 let g:php_cs_fixer_php_path = 'php'            " 指定PHP可执行文件的路径
 let g:php_cs_fixer_enable_default_mapping = 1  " 使用插件默认的快捷键
 let g:php_cs_fixer_dry_run = 0                 " 只提示需要格式化的位置，不执行格式化 [0为不开启]
 nmap <F9> :call PhpCsFixerFixFile()<CR>
-" nmap <F10> :call PhpCsFixerFixDirectory()<CR>
+nmap <F10> :call PhpCsFixerFixDirectory()<CR>
 
 " AirLine             彩色状态栏
 " let g:airline_theme = 'wombat'                " 设置主题
@@ -364,7 +390,7 @@ func! ViewInBrowser(name)
 
         let SystemIE = " C:/Program\ Files\ (x86)/Internet\ Explorer/iexplore.exe      "
         let Chrome =   " D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe "
-        let Firefox =  " D:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe         "
+        let Firefox =  "C:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
 
         let htdocs ="D:/xampp/htdocs/"
         let url = "localhost:8080"
@@ -799,3 +825,4 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
+
