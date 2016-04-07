@@ -34,6 +34,14 @@ set tabstop=4
 au FileType scala,clojure,elixir,eelixir,scheme,racket,newlisp,lisp,lua,ruby,eruby,julia,dart,elm,coffee,ls,slim,jade,sh set shiftwidth=2
 au FileType scala,clojure,elixir,eelixir,scheme,racket,newlisp,lisp,lua,ruby,eruby,julia,dart,elm,coffee,ls,slim,jade,sh set tabstop=2
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+            \ if line("'\"") > 0 && line("'\"") <= line("$") |
+            \   exe "normal! g`\"" |
+            \ endif
+" Remember info about open buffers on close
+set viminfo^=%
+
 " set autowrite
 set conceallevel=0
 set autowriteall
@@ -122,7 +130,6 @@ Plugin 'https://github.com/rking/ag.vim.git'
 Plugin 'https://github.com/dyng/ctrlsf.vim.git'
 Plugin 'https://github.com/msanders/snipmate.vim.git'
 Plugin 'https://github.com/honza/vim-snippets.git'
-Plugin 'https://github.com/othree/javascript-libraries-syntax.vim.git'
 Plugin 'https://github.com/junegunn/goyo.vim.git'
 Plugin 'https://github.com/plasticboy/vim-markdown.git'
 Plugin 'https://github.com/iamcco/markdown-preview.vim.git'
@@ -131,22 +138,26 @@ Plugin 'alvan/vim-php-manual'
 Plugin 'https://github.com/gcmt/wildfire.vim.git'
 Plugin 'https://github.com/tpope/vim-repeat.git'
 Plugin 'https://github.com/vim-scripts/AuthorInfo.git'  " 需要修改fplugin为plugin
-Plugin 'https://github.com/pangloss/vim-javascript.git'
 Plugin 'https://github.com/scrooloose/syntastic.git'
+Plugin 'https://github.com/pangloss/vim-javascript.git'
 Plugin 'https://github.com/Shutnik/jshint2.vim.git'
-Plugin 'https://github.com/Valloric/MatchTagAlways.git'
+Plugin 'https://github.com/othree/javascript-libraries-syntax.vim.git'
 Plugin 'https://github.com/vim-airline/vim-airline-themes.git'
+Plugin 'https://github.com/leshill/vim-json.git'
+Plugin 'jwalton512/vim-blade'
+Plugin 'trailing-whitespace'
+Plugin 'https://github.com/Shougo/unite.vim.git'
+" Plugin 'https://github.com/Valloric/MatchTagAlways.git'
 " Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
 " Plugin 'ryanoasis/vim-devicons'
 
-" Plugin 'https://github.com/leshill/vim-json.git'
-" Plugin 'https://github.com/digitaltoad/vim-jade.git'
-" Plugin 'mhinz/vim-startify'
-" Plugin 'https://github.com/vim-scripts/vcscommand.vim.git'
 
 call vundle#end()           " required
 filetype plugin indent on   " required
+
+"bufexplorer
+nnoremap <silent> <space> :ToggleBufExplorer<CR>
 
 "jshint2
 let jshint2_command = $VIMRUNTIME."/jshint.cmd"
@@ -178,7 +189,6 @@ endfunc
 
 " markdown-preview
 let g:mkdp_path_to_chrome = "C:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
-" let g:mkdp_path_to_chrome = "D:/caojl/chrome/chrome.exe"
 let g:mkdp_auto_start = 0   " 设置为 1 可以在打开 markdown 文件的时候自动打开浏览器预览，只在打开markdown文件的时候打开一次
 let g:mkdp_auto_open = 0    " 设置为 1 在编辑 markdown 的时候检查预览窗口是否已经打开，否则自动打开预览窗口
 let g:mkdp_auto_close = 0   " 在切换 buffer 的时候自动关闭预览窗口，设置为 0 则在切换 buffer 的时候不自动关闭预览窗口
@@ -306,8 +316,8 @@ map <F2> :NERDTreeToggle<CR>
 
 "AuthorInfo
 let g:vimrc_author='arvin'
-let g:vimrc_email='839891627@qq.com'
-let g:vimrc_homepage='https://github.com/839891627'
+let g:vimrc_email='arvin.cao@sunallies.com'
+" let g:vimrc_homepage='https://github.com/839891627'
 nmap <F6> :AuthorInfoDetect<cr>
 
 " TagBar              tags标签浏览
@@ -392,8 +402,8 @@ func! ViewInBrowser(name)
         let Chrome =   " D:/Google\ Chrome\ v44.0.2403.157\ Enhance_64bit/MyChrome.exe "
         let Firefox =  "C:/Program\ Files\ (x86)/Mozilla\ Firefox/firefox.exe"
 
-        let htdocs ="D:/xampp/htdocs/"
-        let url = "localhost:8080"
+        let htdocs ="D:/PHP/nginx-1.8.1/html/"
+        let url = "localhost"
 
         let l:browsers = {}
         let l:browsers["cr"] = Chrome
