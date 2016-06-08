@@ -16,11 +16,11 @@ endif
 
 " 设置着色模式和字体
 if g:isWIN
-    "colorscheme molokai
-    "colorscheme monokai
+    " colorscheme molokai
+    " colorscheme monokai
     colorscheme solarized
     " colorscheme dracula1
-    "set background=dark
+    " set background=dark
     set guifont=YaHei_Consolas_Hybrid:h11
 else
     colorscheme molokai
@@ -124,7 +124,7 @@ Plugin 'https://github.com/luochen1990/rainbow.git'
 Plugin 'https://github.com/scrooloose/nerdcommenter.git'
 Plugin 'https://github.com/Yggdroot/indentLine.git'
 Plugin 'https://github.com/maksimr/vim-jsbeautify.git'
-Plugin 'https://github.com/skammer/vim-css-color.git'
+Plugin 'https://github.com/gorodinskiy/vim-coloresque.git'
 Plugin 'https://github.com/jlanzarotta/colorSchemeExplorer.git'
 Plugin 'https://github.com/rking/ag.vim.git'
 Plugin 'https://github.com/dyng/ctrlsf.vim.git'
@@ -145,9 +145,11 @@ Plugin 'https://github.com/othree/javascript-libraries-syntax.vim.git'
 Plugin 'https://github.com/vim-airline/vim-airline-themes.git'
 Plugin 'https://github.com/leshill/vim-json.git'
 Plugin 'jwalton512/vim-blade'
-Plugin 'trailing-whitespace'
-Plugin 'https://github.com/Shougo/unite.vim.git'
-" Plugin 'https://github.com/Valloric/MatchTagAlways.git'
+" Plugin 'trailing-whitespace'
+" Plugin 'https://github.com/Shougo/unite.vim.git'
+Plugin 'https://github.com/airblade/vim-gitgutter.git'
+Plugin 'https://github.com/Valloric/MatchTagAlways.git'
+Plugin 'https://github.com/tpope/vim-fugitive.git'
 " Plugin 'https://github.com/ervandew/supertab.git'
 " Plugin 'https://github.com/nono/jquery.vim.git'
 " Plugin 'ryanoasis/vim-devicons'
@@ -217,6 +219,23 @@ let NERDSpaceDelims = 1                        " 自动添加前置空格
 
 "bbye 关闭当前tab
 nnoremap ,z :Bd<CR>
+" Close all the buffers
+map <leader>ba :1,1000 bd!<cr>
+
+" Specify the behavior when switching between buffers
+try
+    set switchbuf=useopen,usetab,newtab
+    set stal=2
+catch
+endtry
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
+" F1 废弃这个键,防止调出系统帮助
+" I can type :help on my own, thanks.  Protect your fat fingers from the evils of <F1>
+noremap <F1> <Esc>"
+
 
 " \bn                 自定义对齐    [Tabular插件]
 "
@@ -232,20 +251,27 @@ nmap <leader>ff :CtrlPMixed<cr>
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
+
 let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
+let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_php_checkers = ['php', 'phpcs', 'phpmd']
+let g:syntastic_aggregate_errors = 1
 " 过滤错误类型等
+" let g:syntastic_quiet_messages = {
+            " \ "!level":  "errors,warnings",
+            " \ "type":    "style",
+            " \ "regex":   '\m\[C03\d\d\]',
+            " \ "file:p":  ['\m^/usr/include/', '\m\c\.h$'] }
 let g:syntastic_quiet_messages = {
             \ "!level":  "errors,warnings",
-            \ "type":    "style",
             \ "regex":   '\m\[C03\d\d\]',
             \ "file:p":  ['\m^/usr/include/', '\m\c\.h$'] }
-let g:syntastic_mode_map      = {
-            \'mode': 'active',
-            \'passive_filetypes': ['php','groovy', 'kotlin', 'ceylon', 'scala', 'clojure', 'lisp', 'eruby', 'slim', 'jade', 'scss', 'less', 'css', 'html', 'xhtml']
-            \}                                 " 指定不需要开启检查的语言
+" let g:syntastic_mode_map      = {
+            " \'mode': 'active',
+            " \'passive_filetypes': ['php','groovy', 'kotlin', 'ceylon', 'scala', 'clojure', 'lisp', 'eruby', 'slim', 'jade', 'scss', 'less', 'css', 'html', 'xhtml']
+            " \}                                 " 指定不需要开启检查的语言
 
 " BufExplorer         文件缓冲浏览器
 let g:bufExplorerSortBy = 'name'               " 按文件名排序
@@ -432,6 +458,9 @@ endfunction
 map gb <ESC>:call OpenFileLocation()<CR>
 
 " ======= 自定义快捷键 ======= "
+" esc退出高亮模式
+nnoremap <esc> :nohl<cr>
+nnoremap <esc> :nohls<cr>
 " Ctrl + ]            多选择跳转
 nmap <c-]> g<c-]>
 vmap <c-]> g<c-]>
@@ -835,4 +864,36 @@ autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 if !exists('g:neocomplete#sources#omni#input_patterns')
     let g:neocomplete#sources#omni#input_patterns = {}
 endif
+
+let g:gitgutter_sign_column_always = 1
+let g:gitgutter_max_signs = 500  " default value
+let g:gitgutter_diff_args = '-w'
+" GitGutter           Git辅助插件
+let g:gitgutter_enabled               = 1      " 默认不开启
+let g:gitgutter_signs                 = 1      " 默认不开启提示
+let g:gitgutter_highlight_lines       = 0      " 默认不高亮行
+let g:gitgutter_diff_args = '-w'                "空白不检测
+let g:gitgutter_realtime = 0
+
+" \gi                 开启或关闭GitGutter [GitGutter插件]
+nmap <leader>gi :GitGutterToggle<cr>:GitGutterSignsToggle<cr>:GitGutterLineHighlightsToggle<cr>
+
+" \gd                 打开Git文件对比模式 [竖直] [GitGutter插件]
+nmap <leader>gd :Gdiff<cr>
+
+" \gs                 打开Git文件对比模式 [水平] [GitGutter插件]
+nmap <leader>gs :Gsdiff<cr>
+
+" \gl                 查看Git提交日志 [gitv插件]
+nmap <leader>gl :Gitv<cr>
+
+
+" 小技巧
+"   :g/{pattern}/d "删除匹配行 
+"   :v/{pattern}/d "保留匹配行
+"“[range]”指“g”命令运行的范围，默认情况下是整个buffer，如果需要指定1至10行，这样写：
+
+"     :1,10g/{pattern}/{cmd}
+"
+"       :g/^[^ ].*\n \{4}声.*/normal "A2dd
 
